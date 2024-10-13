@@ -5,7 +5,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.pkoleva.ui.utils.Helper;
+import org.pkoleva.ui.utils.DataHelper;
 import org.pkoleva.ui.utils.Item;
 
 import java.util.ArrayList;
@@ -24,7 +24,6 @@ public class CartPage extends BasePage{
     private By removeBtn = By.xpath("//button[text()='Remove']");
     private By continueShoppingBtn = By.id("continue-shopping");
     private By checkoutBtn = By.id("checkout");
-    private HashMap<String, By> itemProperties = new HashMap<>();
 
     //methods
     public boolean removeItemByPosition(int index) {
@@ -47,9 +46,10 @@ public class CartPage extends BasePage{
     }
 
     public List<Item> getCartItemsAsObjects(){
+        HashMap<String, By> itemProperties = new HashMap<>();
         List<WebElement> elements = getAllCartItems();
         itemProperties.put("itemName",By.className("inventory_item_name"));
         itemProperties.put("itemPrice",By.className("inventory_item_price"));
-        return Helper.getItemsAsObjects(elements,itemProperties);
+        return DataHelper.getItemsAsObjects(elements,itemProperties);
     }
 }

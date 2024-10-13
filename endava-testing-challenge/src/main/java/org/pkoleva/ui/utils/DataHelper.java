@@ -7,23 +7,31 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class Helper {
+public class DataHelper {
 
 
     public static List<Item> getItemsAsObjects(List<WebElement> elements, HashMap<String, By> properties){
         List<Item> items = new ArrayList<>();
-        Item i = new Item();
         for(WebElement e : elements){
-            i.title = e.findElement(properties.get("itemName")).getText();
-            i.price = Double.valueOf(e.findElement(properties.get("itemPrice")).getText().substring(1));
+            Item i = Item.builder().build();
+            i.setTitle(e.findElement(properties.get("itemName")).getText());
+            i.setPrice(Double.valueOf(e.findElement(properties.get("itemPrice")).getText().substring(1)));
             items.add(i);
         }
         return items;
     }
 
+//    public static boolean compareItems(List<Item> list1, List<Item> list2){
+//        for(Item i: list1){
+//            i.price==list2
+//
+//        }
+//        return true;
+//    }
+
     public static boolean isSorted(List<Item> list) {
         for (int i = 0; i < list.size()-1; i++) {
-            if (list.get(i).price < list.get(i + 1).price) {
+            if (list.get(i).getPrice() < list.get(i + 1).getPrice()) {
                 return false;
             }
         }

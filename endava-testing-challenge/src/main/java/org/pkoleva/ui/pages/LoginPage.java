@@ -15,8 +15,8 @@ public class LoginPage extends BasePage{
     private String password = "secret_sauce";
 
     //locators
-//    private By usernameString = By.xpath("");
-//    private By passwordString = By.xpath("");
+    private By usernameString = By.xpath("//div[@id='login_credentials']");
+    private By passwordString = By.xpath("//div[@class='login_password']");
     private By usernameFld = By.id("user-name");
     private By passwordFld = By.id("password");
     private By loginBtn = By.id("login-button");
@@ -25,16 +25,16 @@ public class LoginPage extends BasePage{
 
     //methods
     public String getUsername(){
-        return "";
+        return driver.findElement(usernameString).getText().split("\n")[1];
     }
 
     public String getPassword(){
-        return "";
+        return driver.findElement(passwordString).getText().split("\n")[1];
     }
 
     public void logIn(){
-//        username = getUsername();
-//        password = getPassword();
+        username = getUsername();
+        password = getPassword();
         if(driver.findElement(loginBtn).isDisplayed()== false) {
             logout();
         }

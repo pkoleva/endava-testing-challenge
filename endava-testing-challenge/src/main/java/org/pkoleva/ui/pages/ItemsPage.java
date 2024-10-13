@@ -6,13 +6,11 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.pkoleva.ui.utils.Helper;
+import org.pkoleva.ui.utils.DataHelper;
 import org.pkoleva.ui.utils.Item;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class ItemsPage extends BasePage{
 
@@ -24,8 +22,8 @@ public class ItemsPage extends BasePage{
     private HashMap<String, By> itemProperties = new HashMap<>();
 
     //locators
-    private By item = By.xpath("//div[@class='inventory_item']");
-    private By addToCartBtn = By.xpath("//button[text()='Add to cart']");
+    private By item = By.className("inventory_item_description");
+    private By addToCartBtn = By.tagName("button");
     private By filterSelect = By.className("product_sort_container");
 
     public List<WebElement> getAllItems(){
@@ -34,10 +32,11 @@ public class ItemsPage extends BasePage{
 
 
 
-    public void addItemToCartByPosition(WebElement item) {
+    public WebElement addItemToCartByPosition(WebElement item) {
         var button = item.findElement(addToCartBtn);
         wait.until(ExpectedConditions.elementToBeClickable(button));
         button.click();
+        return button;
     }
 
     public void goToCart() {
@@ -52,7 +51,7 @@ public class ItemsPage extends BasePage{
     public List<Item> getItemsAsObjects(List<WebElement> elements){
         itemProperties.put("itemName",By.className("inventory_item_name"));
         itemProperties.put("itemPrice",By.className("inventory_item_price"));
-        return Helper.getItemsAsObjects(elements,itemProperties);
+        return DataHelper.getItemsAsObjects(elements,itemProperties);
     }
 
 }

@@ -1,15 +1,19 @@
 package ui;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.pkoleva.ui.pages.CartPage;
 import org.pkoleva.ui.pages.CheckoutPage;
 import org.pkoleva.ui.pages.ItemsPage;
 import org.pkoleva.ui.pages.LoginPage;
+import io.github.bonigarcia.wdm.WebDriverManager;
 
 import java.time.Duration;
 
@@ -36,22 +40,33 @@ public class BaseTest {
 
 
         // Navigate to baseUrl.
-        driver.get(loginPage.basePageUrl);
-        Assertions.assertEquals(loginPage.basePageUrl, driver.getCurrentUrl());
+        String environment = System.getProperty("environment");
+        driver.get(environment);
+        Assertions.assertEquals(environment, driver.getCurrentUrl());
         loginPage.logIn();
-//        Assertions.assertTrue(loginPage.verifyLogo());
-
     }
 
-//    @AfterEach
-//    public void afterEachTest(){
-//        loginPage.logout();
-//    }
+    @AfterEach
+    public void afterEachTest(){
+        loginPage.logout();
+        driver.quit();
+    }
 
     protected static WebDriver startBrowser() {
-        // Setup Chrome.
-        ChromeOptions chromeOptions = new ChromeOptions();
-        WebDriver driver = new ChromeDriver(chromeOptions);
+        WebDriver driver;
+        String browser = System.getProperty("browser");
+
+        if(browser.equals("firefox")){
+            // Setup Firefox.
+            WebDriverManager.firefoxdriver().setup();
+            driver = new FirefoxDriver();
+        }
+        else{
+            // Setup Chrome.
+            WebDriverManager.chromedriver().setup();
+            ChromeOptions chromeOptions = new ChromeOptions();
+            driver = new ChromeDriver(chromeOptions);
+        }
         driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(Duration.ofMillis(500));
         return driver;

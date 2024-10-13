@@ -6,7 +6,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class BasePage {
-    public String basePageUrl = "https://www.saucedemo.com/";
+
     protected WebDriver driver;
     protected WebDriverWait wait;
 
@@ -30,10 +30,6 @@ public class BasePage {
         var textBox = driver.findElement(locator);
         wait.until(ExpectedConditions.elementToBeClickable(textBox));
         textBox.sendKeys(criteria);
-    }
-
-    public void getValueFromField(){
-
     }
 
 }
